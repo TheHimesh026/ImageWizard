@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 2626;
 
 //middlewares
 app.use(cors({
-  origin: "https://pixelshiftlab.web.app/",
+  origin: "https://pixelshiftlab.web.app",
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
