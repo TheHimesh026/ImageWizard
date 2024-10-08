@@ -1,12 +1,16 @@
 import gm from "gm";
 import { normalizeInputPath, normalizeOutputPath } from "../utils/io-path.js";
 
+const gmBinaryPath = `${process.env.HOME}/opt/graphicsmagick/bin/gm`;
+
+const gmSubclass = gm.subClass({ appPath: gmBinaryPath });
+
 function formatImage(data, outputFormat) {
   const inputFilePath = normalizeInputPath(data.filename, data.filetype);
   const outputFilePath = normalizeOutputPath(data.filename, outputFormat);
 
   return new Promise((resolve, reject) => {
-    gm(inputFilePath).write(outputFilePath, (err) => {
+    gmSubclass(inputFilePath).write(outputFilePath, (err) => {
       if (err) {
         reject(new Error(`Failed to format image: ${err.message}`));
       } else {
@@ -21,7 +25,7 @@ function compressImage(data) {
   const outputFilePath = normalizeOutputPath(data.filename, data.filetype);
 
   return new Promise((resolve, reject) => {
-    gm(inputFilePath)
+    gmSubclass(inputFilePath)
       .quality(data.quality)
       .write(outputFilePath, (err) => {
         if (err) {
@@ -37,7 +41,7 @@ function imageMetadata(data) {
   const inputFilePath = normalizeInputPath(data.filename, data.filetype);
 
   return new Promise((resolve, reject) => {
-    gm(inputFilePath).identify((err, meta) => {
+    gmSubclass(inputFilePath).identify((err, meta) => {
       if (err) {
         reject(new Error(`Failed to retrieve image metadata: ${err.message}`));
       } else {

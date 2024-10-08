@@ -5,6 +5,7 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
+    "postinstall": "gm.sh",
     "start": "node app.js",
     "test": "jest"
   },
