@@ -6,7 +6,7 @@
   "main": "app.js",
   "scripts": {
     "postinstall": "./gm.sh",
-    "start": "node ./app.js",
+    "start": "node -r dotenv/config --inspect-brk app.js",
     "test": "jest"
   },
   "dependencies": {

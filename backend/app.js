@@ -4,6 +4,8 @@ import express from "express";
 const app = express();
 dotenv.config();
 
+console.log("App initilizing");
+
 import "./utils/delete-cron.js";
 
 //functions
