@@ -3,6 +3,11 @@ import fetchData from "./fetch.js";
 const formData = new FormData();
 let id;
 
+window.addEventListener("DOMContentLoaded", (e) => {
+  e.preventDefault();
+  fetch("https://pixelshiftlab.onrender.com/api/v1/status")
+  .then(res => console.info(res))
+});
 const functionalityChangeDropdown = document.querySelector(
   ".functionality-change-dropdown",
 );
