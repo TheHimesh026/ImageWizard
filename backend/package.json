@@ -5,18 +5,17 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "postinstall": "./gm.sh",
-    "start": "node -r dotenv/config --inspect-brk app.js",
+    "start": "node app.js",
     "test": "jest"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "gm": "^1.25.0",
+    "express": "^4.21.0",
     "multer": "^1.4.5-lts.1",
     "node-cron": "^3.0.3",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "jest": "^29.7.0",

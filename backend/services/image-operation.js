@@ -1,54 +1,41 @@
-import gm from "gm";
+import sharp from "sharp";
 import { normalizeInputPath, normalizeOutputPath } from "../utils/io-path.js";
-
-const gmBinaryPath = `${process.env.HOME}/opt/graphicsmagick/bin/gm`;
-
-const gmSubclass = gm.subClass({ appPath: gmBinaryPath });
 
 function formatImage(data, outputFormat) {
   const inputFilePath = normalizeInputPath(data.filename, data.filetype);
   const outputFilePath = normalizeOutputPath(data.filename, outputFormat);
 
-  return new Promise((resolve, reject) => {
-    gmSubclass(inputFilePath).write(outputFilePath, (err) => {
-      if (err) {
-        reject(new Error(`Failed to format image: ${err.message}`));
-      } else {
-        resolve(outputFilePath);
-      }
+  return sharp(inputFilePath)
+    .toFormat(outputFormat)
+    .toFile(outputFilePath)
+    .then(() => outputFilePath)
+    .catch((err) => {
+      throw new Error(`Failed to format image: ${err.message}`);
     });
-  });
 }
 
 function compressImage(data) {
   const inputFilePath = normalizeInputPath(data.filename, data.filetype);
   const outputFilePath = normalizeOutputPath(data.filename, data.filetype);
 
-  return new Promise((resolve, reject) => {
-    gmSubclass(inputFilePath)
-      .quality(data.quality)
-      .write(outputFilePath, (err) => {
-        if (err) {
-          reject(new Error(`Failed to compress image: ${err.message}`));
-        } else {
-          resolve(outputFilePath);
-        }
-      });
-  });
+  return sharp(inputFilePath)
+    .jpeg({ quality: data.compress })
+    .toFile(outputFilePath)
+    .then(() => outputFilePath)
+    .catch((err) => {
+      throw new Error(`Failed to compress image: ${err.message}`);
+    });
 }
 
 function imageMetadata(data) {
   const inputFilePath = normalizeInputPath(data.filename, data.filetype);
 
-  return new Promise((resolve, reject) => {
-    gmSubclass(inputFilePath).identify((err, meta) => {
-      if (err) {
-        reject(new Error(`Failed to retrieve image metadata: ${err.message}`));
-      } else {
-        resolve(meta);
-      }
+  return sharp(inputFilePath)
+    .metadata()
+    .then((meta) => meta)
+    .catch((err) => {
+      throw new Error(`Failed to retrieve image metadata: ${err.message}`);
     });
-  });
 }
 
 export { formatImage, compressImage, imageMetadata };
