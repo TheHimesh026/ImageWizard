@@ -16,22 +16,28 @@ const PORT = process.env.PORT || 2626;
 app.use(
   cors({
     origin: "https://pixelshiftlab.web.app",
-  }),
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1", routes);
 
+// Starting the server
 app.listen(PORT, () => {
   const uploadDir = "./uploads";
   const tempDir = "./temp";
+  
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
   if (!fs.existsSync(tempDir)) {
     fs.mkdirSync(tempDir, { recursive: true });
   }
+  
   console.log("Current Directory:", process.cwd());
   console.log("Files:", fs.readdirSync(process.cwd()));
   console.log("Server started at", PORT);
