@@ -21,6 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1", routes);
 
+app.options("*",cors());
+
 // Starting the server
 app.listen(PORT, () => {
   const uploadDir = "./uploads";
