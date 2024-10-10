@@ -1,4 +1,4 @@
-//import cors from "cors";
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import fs from "fs";
@@ -11,23 +11,22 @@ import routes from "./routes/index.js";
 const app = express();
 const PORT = process.env.PORT || 2626;
 
-// CORS configuration
-/*const corsOptions = {
-  origin: "https://pixelshiftlab.web.app",
+const corsOptions = {
+  origin: "*",
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'Access-Control-Request-Method', 'Access-Control-Request-Headers'],
   exposedHeaders: ['Content-Length', 'X-Kuma-Revision'],
   credentials: true,
   maxAge: 86400
-};*/
+};
 
 // Middlewares
-//app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-/*app.use((req, res, next) => {
+app.use((req, res, next) => {
   res.vary('Origin');
   res.header('Access-Control-Allow-Origin', 'https://pixelshiftlab.web.app');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
@@ -40,7 +39,7 @@ app.use(express.urlencoded({ extended: true }));
     return res.sendStatus(204);
   }
   next();
-});*/
+});
 
 // Routes
 app.use("/api/v1", routes);
